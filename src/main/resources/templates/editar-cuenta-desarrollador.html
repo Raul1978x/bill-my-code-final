@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+            crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/shared.css"/>
+    <link rel="shortcut icon" href="/images/billmycodelogosimp.png"/>
+    <title>Editar Cuenta</title>
+</head>
+
+<body>
+<header>
+    <div class="logo-container">
+        <a onclick="javascript:history.back()">
+            <img src="/images/billmycodelogo.png" alt="logo de empresa"/>
+        </a>
+    </div>
+    <nav>
+        <a href="#seccion-2">UNITE A BILL MY CODE</a>
+    </nav>
+    <div>
+        <div th:if="${exito}!=null" class="card borrarcarta text-white bg-success mb-3 mt-3 mensajeExito">
+            <div class="card-body">
+                <h5 class="card-title">Exito</h5>
+                <p class="card-text" th:text="${exito}"></p>
+            </div>
+        </div>
+        <div th:if="${error}!=null" class="card borrarcarta text-white bg-danger mb-3 mensajeError">
+            <div class="card-body">
+                <h5 class="card-title">Error</h5>
+                <p class="card-text" th:text="${error}"></p>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+<div id="contenedor">
+    <div id="central">
+        <div id="accounts">
+            <div class="titulo">
+                <div>
+                    <img src="/images/billmycodelogo.png" alt="logo de empresa"/>
+                </div>
+                <div>
+                    <h4>EDITA TU CUENTA</h4>
+                </div>
+            </div>
+            <div th:if="${exito != null}" class="card text-white bg-success mb-3 mt-3 mensajeExito">
+                <div class="card-body">
+                    <h5 class="card-title">Exito!</h5>
+                    <p class="card-text" th:text="${exito}"></p>
+                </div>
+            </div>
+            <form id="accountsform" th:action="@{/thymeleaf/updateDeveloper/{id}(id=${logueado.id})}" method="POST"
+                  enctype="multipart/form-data">
+                <input type="hidden" name="id" th:value="${logueado.id}"/>
+                <input type="text" name="nombre" placeholder="Nombres" th:value="${logueado.nombre}" required/>
+
+                <input
+                        type="text"
+                        name="apellido"
+                        placeholder="Apellido"
+                        th:value="${logueado.apellido}"
+                        required
+                />
+
+                <div th:replace="/fragments/select-genero.html :: select-genero"></div>
+
+                <div th:replace="/fragments/select-country.html :: select-country"></div>
+
+                <input
+                        type="date"
+                        id="start"
+                        name="fechaNacimiento"
+                        th:value="${#dates.format(logueado.fechaNacimiento, 'yyyy-MM-dd')}"
+                        min="1920-01-01"
+                        max="2005-12-31"
+                        class="form-control"
+                        required
+                />
+
+                <input
+                        type="text"
+                        name="telefono"
+                        placeholder="Telefono"
+                        th:value="${logueado.telefono}"
+                        required
+                        class="form-control"
+                />
+
+                <input
+                        type="text"
+                        name="email"
+                        th:value="${logueado.email}"
+                        placeholder="E-Mail"
+                        required
+                        class="form-control"
+                />
+
+
+                <input
+                        type="number"
+                        th:value="${logueado.salario}"
+                        name="salario"
+                        placeholder="Salario"
+                        required
+                />
+
+                <div th:replace="/fragments/select-seniority.html :: select-seniority"></div>
+
+                <div th:replace="/fragments/select-especialidad.html :: select-especialidad"></div>
+
+                <textarea
+                        rou="3"
+                        class="text-area"
+                        placeholder="Descripción"
+                        name="descripcion"
+                        th:value="${logueado.descripcion}"
+                ></textarea>
+                <textarea
+                        rou="3"
+                        class="text-area"
+                        placeholder="Comentario de la Empresa"
+                        name="comentario"
+                        th:value="${logueado.comentario.comentario}"
+                ></textarea>
+                <input
+                        type="text"
+                        name="empresa"
+                        placeholder="Empresa"
+
+                />
+
+                <input
+                        type="password"
+                        placeholder="Contraseña"
+                        name="password"
+                        required
+                        class="form-control"
+                        minlength="6"
+                />
+
+                <input
+                        type="password"
+                        placeholder="Confirmar Contraseña"
+                        name="newpassword"
+                        required
+                        class="form-control"
+                        minlength="6"
+                />
+
+                <label class="form-label" for="customFile"
+                ><p style="color: rgb(255, 255, 255)">SUBA SU FOTO AQUI</p></label
+                >
+                <input
+                        type="file"
+                        class="form-control"
+                        id="customFile"
+                        name="archivo"
+
+                />
+
+                <button class="button" type="submit">
+                    EDITAR CUENTA
+                </button>
+            </form>
+
+        </div>
+        <!--<div class="inferior">
+            <a th:href="@{/thymeleaf/principal-developers}">VOLVER</a>
+        </div>-->
+        <div class="inferior">
+            <a href="javascript:history.back()">VOLVER</a>
+        </div>
+    </div>
+</div>
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"
+></script>
+</body>
+</html>
